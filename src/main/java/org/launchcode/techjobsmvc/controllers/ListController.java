@@ -17,7 +17,6 @@ import java.util.HashMap;
 @Controller
 @RequestMapping(value = "list")
 public class ListController {
-
     static HashMap<String, String> columnChoices = new HashMap<>();
     static HashMap<String, Object> tableChoices = new HashMap<>();
 
@@ -33,8 +32,7 @@ public class ListController {
         tableChoices.put("positionType", JobData.getAllPositionTypes());
         tableChoices.put("coreCompetency", JobData.getAllCoreCompetency());
     }
-
-    @GetMapping(value = "")
+    @GetMapping("")
     public String list(Model model) {
         model.addAttribute("columns", columnChoices);
         model.addAttribute("tableChoices", tableChoices);
@@ -45,8 +43,7 @@ public class ListController {
 
         return "list";
     }
-
-    @GetMapping(value = "jobs")
+    @GetMapping("jobs")
     public String listJobsByColumnAndValue(Model model, @RequestParam String column, @RequestParam(required = false) String value) {
         ArrayList<Job> jobs;
         if (column.equals("all")){
@@ -61,4 +58,3 @@ public class ListController {
         return "list-jobs";
     }
 }
-

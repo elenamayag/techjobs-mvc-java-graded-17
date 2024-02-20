@@ -9,6 +9,9 @@ import java.util.HashMap;
 /**
  * Created by LaunchCode
  */
+
+// This class has only one handler method, index,
+// which displays the home page for the app.
 @Controller
 public class HomeController {
 

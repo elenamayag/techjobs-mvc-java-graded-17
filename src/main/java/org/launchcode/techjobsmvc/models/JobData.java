@@ -23,6 +23,7 @@ public class JobData {
     private static boolean isDataLoaded = false;
 
     private static ArrayList<Job> allJobs;
+    private static ArrayList<String> allNames = new ArrayList<>();
     private static ArrayList<Employer> allEmployers = new ArrayList<>();
     private static ArrayList<Location> allLocations = new ArrayList<>();
     private static ArrayList<PositionType> allPositionTypes = new ArrayList<>();
@@ -145,9 +146,7 @@ public class JobData {
         if (isDataLoaded) {
             return;
         }
-
         try {
-
             // Open the CSV file and set up pull out column header info and records
             Resource resource = new ClassPathResource(DATA_FILE);
             InputStream is = resource.getInputStream();
@@ -168,10 +167,16 @@ public class JobData {
                 String aPosition = record.get(3);
                 String aSkill = record.get(4);
 
+                String newName = (String) findExistingObject(allNames, aName);
                 Employer newEmployer = (Employer) findExistingObject(allEmployers, anEmployer);
                 Location newLocation = (Location) findExistingObject(allLocations, aLocation);
                 PositionType newPosition = (PositionType) findExistingObject(allPositionTypes, aPosition);
                 CoreCompetency newSkill = (CoreCompetency) findExistingObject(allCoreCompetency, aSkill);
+
+                if (newName == null){
+                    newName = new String(aName);
+                    allNames.add(newName);
+                }
 
                 if (newEmployer == null){
                     newEmployer = new Employer(anEmployer);
@@ -206,6 +211,11 @@ public class JobData {
         }
     }
 
+    public static ArrayList<String> getAllNames() {
+        loadData();
+        allNames.sort(new NameSorter());
+        return allNames;
+    }
     public static ArrayList<Employer> getAllEmployers() {
         loadData();
         allEmployers.sort(new NameSorter());
@@ -231,5 +241,3 @@ public class JobData {
     }
 
 }
-
-
